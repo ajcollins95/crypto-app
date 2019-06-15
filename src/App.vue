@@ -20,7 +20,10 @@
       <v-container grid-list-md>
         <v-layout row>
           <v-flex xs4>
-            <Exchanges :exchange-list='ccxt.exchanges'></Exchanges>
+            <Exchanges
+            :exchanges='ccxt.exchanges'
+            @selectExchange='updateExchange($event)'>
+            </Exchanges>
           </v-flex>
           <v-flex xs4>
 
@@ -46,14 +49,21 @@ export default {
   },
   data () {
     return {
-      ccxt: {}
+      ccxt: {},
+      exchange: ""
       //
+    }
+  },
+  methods: {
+    updateExchange: function(newExchange) {
+      this.exchange = newExchange
+      console.log(newExchange)
     }
   },
   created() {
     let ccxt = require('ccxt');
     this.ccxt = ccxt;
     console.log(this.ccxt.exchanges);
-  }
+  },
 }
 </script>

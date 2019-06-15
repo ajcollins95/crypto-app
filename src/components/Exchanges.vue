@@ -1,27 +1,29 @@
 <template>
-  <v-card>
+  <v-card max-height='500px' class='scroll-y'>
     <v-toolbar color="green darken-4">
       <v-flex xs12>
         <v-text-field
-          label="Regular"
+          label="Exchange"
           single-line
+          append-icon="search"
+          v-model="search"
+          color='black'
         ></v-text-field>
+
       </v-flex>
     </v-toolbar>
-    <v-list two-line>
-      <template v-for="(item, index) in items">
-        <v-list-tile :key="index" avatar ripple @click="">
+
+    <v-list color='orange'>
+      <template v-for="(exchange, index) in filteredExchanges">
+        <v-list-tile :key="index"
+        ripple
+        :disabled='isSelected'
+        @click="selectExchange(exchange)">
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-            <v-list-tile-sub-title class="text--primary">{{ item.headline }}</v-list-tile-sub-title>
-            <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+            <v-list-tile-title>{{ exchange }}</v-list-tile-title>
           </v-list-tile-content>
-          <v-list-tile-action>
-            <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
-            <v-icon color="grey lighten-1">star_border</v-icon>
-          </v-list-tile-action>
         </v-list-tile>
-        <v-divider v-if="index + 1 < items.length" :key="`divider-${index}`"></v-divider>
+        <v-divider ></v-divider>
       </template>
     </v-list>
   </v-card>
@@ -30,19 +32,31 @@
 <script>
 
 export default {
-
-  data () {
+  data() {
     return {
-      head: 'Fat',
-      exchanges: 'head'
+      search: "",
+      exchange: ""
     }
   },
-  props: {
-    exchange-list: Array
+  props: ['exchanges'],
+  methods: {
+    selectExchange: function(exchange) {
+      this.exchange = exchange
+      this.$emit('selectExchange',exchange)
+    }
   },
-  mounted() {
-    alert();
-    console.log('work');
+  computed: {
+    filteredExchanges: function() {
+      if (this.search == '') { return [] }
+      return this.exchanges.filter((exchange) => {
+        return exchange.match(this.search)
+      })
+    },
+    isSelected: function() {
+      return (this.exchange != "")
+    }
   }
 
 }
+
+</script>
