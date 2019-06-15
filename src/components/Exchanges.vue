@@ -17,7 +17,7 @@
       <template v-for="(exchange, index) in filteredExchanges">
         <v-list-tile :key="index"
         ripple
-        :disabled='isSelected'
+        :disabled='isDisabled'
         @click="selectExchange(exchange)">
           <v-list-tile-content>
             <v-list-tile-title>{{ exchange }}</v-list-tile-title>
@@ -38,7 +38,10 @@ export default {
       exchange: ""
     }
   },
-  props: ['exchanges'],
+  props: {
+    exchanges: Array,
+    isDisabled: Boolean
+  },
   methods: {
     selectExchange: function(exchange) {
       this.exchange = exchange
@@ -51,9 +54,6 @@ export default {
       return this.exchanges.filter((exchange) => {
         return exchange.match(this.search)
       })
-    },
-    isSelected: function() {
-      return (this.exchange != "")
     }
   }
 

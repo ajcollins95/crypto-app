@@ -22,6 +22,7 @@
           <v-flex xs4>
             <Exchanges
             :exchanges='ccxt.exchanges'
+            :isDisabled="state != 'exchange'"
             @selectExchange='updateExchange($event)'>
             </Exchanges>
           </v-flex>
@@ -50,15 +51,22 @@ export default {
   data () {
     return {
       ccxt: {},
-      exchange: ""
+      exchange: "",
+      pair: [],
+      state: 'exchange'
+
       //
     }
   },
   methods: {
     updateExchange: function(newExchange) {
       this.exchange = newExchange
+      this.state = 'pairs'
       console.log(newExchange)
     }
+  },
+  computed: {
+
   },
   created() {
     let ccxt = require('ccxt');
