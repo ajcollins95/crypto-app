@@ -13,14 +13,15 @@
       </v-flex>
     </v-toolbar>
 
-    <v-list color='orange'>
-      <template v-for="(exchange, index) in filteredExchanges">
+    <v-list>
+      <template v-for="(exchange_i, index) in filteredExchanges">
         <v-list-tile :key="index"
         ripple
-        :disabled='isDisabled'
-        @click="selectExchange(exchange)">
+        :class="{'black--text': (exchange == exchange_i)}"
+        @click="selectExchange(exchange_i)">
           <v-list-tile-content>
-            <v-list-tile-title>{{ exchange }}</v-list-tile-title>
+            <v-list-tile-title
+            >{{ exchange_i }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider ></v-divider>
@@ -60,3 +61,11 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+.active {
+  background: 'yellow';
+}
+
+</style>

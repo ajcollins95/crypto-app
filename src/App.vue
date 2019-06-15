@@ -26,8 +26,9 @@
             @selectExchange='updateExchange($event)'>
             </Exchanges>
           </v-flex>
-          <v-flex xs4>
 
+          <v-flex xs4>
+            <Pairs />
           </v-flex>
           <v-flex xs4>
 
@@ -41,17 +42,21 @@
 <script>
 import HelloWorld from './components/HelloWorld'
 import Exchanges from './components/Exchanges'
+import Pairs from './components/Pairs'
+import Latest from './components/Latest'
+
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    Exchanges
+    Exchanges,
+    Pairs
   },
   data () {
     return {
       ccxt: {},
-      exchange: "",
+      exchangeID: "",
       pair: [],
       state: 'exchange'
 
@@ -60,9 +65,15 @@ export default {
   },
   methods: {
     updateExchange: function(newExchange) {
-      this.exchange = newExchange
+      this.exchangeID = newExchange
       this.state = 'pairs'
       console.log(newExchange)
+      let exchange = new this.ccxt[newExchange]
+      exchange.fetchMarkets()
+        .then(data => {console.log(data);})
+        .catch(e => {console.log(e);})
+
+
     }
   },
   computed: {
