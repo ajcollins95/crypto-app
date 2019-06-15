@@ -1,9 +1,9 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+      <v-toolbar-title class="headline text-uppercase" >
+        <span>Crypto</span>
+        <span class="font-weight-light">CURRENCY</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -15,24 +15,45 @@
       </v-btn>
     </v-toolbar>
 
+
     <v-content>
-      <HelloWorld/>
+      <v-container grid-list-md>
+        <v-layout row>
+          <v-flex xs4>
+            <Exchanges :exchange-list='ccxt.exchanges'></Exchanges>
+          </v-flex>
+          <v-flex xs4>
+
+          </v-flex>
+          <v-flex xs4>
+
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
+import Exchanges from './components/Exchanges'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    Exchanges
   },
   data () {
     return {
+      ccxt: {}
       //
     }
+  },
+  created() {
+    let ccxt = require('ccxt');
+    this.ccxt = ccxt;
+    console.log(this.ccxt.exchanges);
   }
 }
 </script>
